@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import List from './List';
+import { Link } from 'react-router-dom';
 
 export default class Home extends Component {
   constructor() {
@@ -28,6 +29,12 @@ export default class Home extends Component {
     const { inputValue, toGo } = this.state;
     return (
       <main>
+      <span
+          data-testid="home-initial-message"
+        >
+          Digite algum termo de pesquisa ou escolha uma categoria.
+        </span>
+
         <form>
           <label htmlFor="get">
             <input
@@ -45,11 +52,14 @@ export default class Home extends Component {
             </button>
           </label>
         </form>
-        <span
-          data-testid="home-initial-message"
-        >
-          Digite algum termo de pesquisa ou escolha uma categoria.
-        </span>
+
+        <Link to="/shoppingcart" data-testid="shopping-cart-button">
+          <button type="button">
+            <img src="https://cdn-icons-png.flaticon.com/512/1374/1374128.png" height="42" width="42" alt="carrinho" />
+          </button>
+        </Link>
+        <br />
+        
         { toGo
           && <List input={ inputValue } />}
       </main>
