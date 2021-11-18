@@ -4,14 +4,11 @@ export default class Home extends Component {
   render() {
     return (
       <main>
-        <input
-          type="text"
-        />
-        <h1
+        <span
           data-testid="home-initial-message"
         >
           Digite algum termo de pesquisa ou escolha uma categoria.
-        </h1>
+        </span>
       </main>
     );
   }
