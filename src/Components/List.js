@@ -29,9 +29,9 @@ export default class List extends Component {
     return (
       results
         ? (
-          <ul>
+          <div className="itens-Card">
             { results.map((result) => <ItemCard key={ result.id } { ...result } />)}
-          </ul>
+          </div>
         )
         : <h3>Nenhum produto foi encontrado</h3>
     );
