@@ -1,5 +1,5 @@
 body {
-  margin: 0;
+  margin: 20px 0px 0px 20px;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
@@ -10,4 +10,33 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+input {
+  border-radius: 20px 20px 20px;
+  margin: 0px 20px 0px 0px;
+  width: 330px;
+}
+
+.itens-Card {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.item {
+  display: flex;
+  flex-direction: column;
+  border: thick  double  blue;
+  margin: 10px 10px 10px 10px;
+  width: 150px;
+  height: 200px;
+}
+
+.menu {
+  display: flex;
+  justify-content: center;
+}
+
+form {
+  margin: 0px 20px 0px 0px;
 }
