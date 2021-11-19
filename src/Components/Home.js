@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import CategoryList from './CategoryList';
 import List from './List';
 
 export default class Home extends Component {
@@ -9,6 +10,7 @@ export default class Home extends Component {
     this.state = {
       inputValue: '',
       toGo: false,
+      selectedCategory: '',
     };
   }
 
@@ -25,8 +27,14 @@ export default class Home extends Component {
     });
   }
 
+  handleCategoryChange = ({ target }) => {
+    this.setState({
+      selectedCategory: target.value,
+    });
+  };
+
   render() {
-    const { inputValue, toGo } = this.state;
+    const { inputValue, toGo, selectedCategory } = this.state;
     return (
       <main>
         <div className="menu">
@@ -46,6 +54,10 @@ export default class Home extends Component {
                 Buscar!
               </button>
             </label>
+            <CategoryList
+              selectedCategory={ selectedCategory }
+              onChange={ this.handleCategoryChange }
+            />
             <br />
             <span
               data-testid="home-initial-message"
