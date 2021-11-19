@@ -10,7 +10,7 @@ export default class Redirect extends Component {
         <Route path="/" exact>
           <Home />
         </Route>
-        <Route path="/shoppingcart" exact>
+        <Route path="/shoppingcart">
           <ShoppingCart />
         </Route>
       </Switch>

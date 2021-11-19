@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import CarrinhoCompras from './CarrinhoCompras';
 import CategoryList from './CategoryList';
 import List from './List';
 
@@ -11,6 +11,7 @@ export default class Home extends Component {
       inputValue: '',
       toGo: false,
       selectedCategory: '',
+      quantidadeCarrinho: 0,
     };
   }
 
@@ -27,17 +28,19 @@ export default class Home extends Component {
     });
   }
 
-  handleCategoryChange = ({ target }) => {
+  handleCategoryChange = (id) => {
+    const { selectedCategory } = this.state;
     this.setState({
-      selectedCategory: target.value,
+      selectedCategory: id,
     });
+    console.log(selectedCategory);
   };
 
   render() {
-    const { inputValue, toGo, selectedCategory } = this.state;
+    const { inputValue, toGo, quantidadeCarrinho } = this.state;
     return (
       <main>
-        <div className="menu">
+        <section className="menu">
           <form>
             <label htmlFor="get">
               <input
@@ -45,19 +48,17 @@ export default class Home extends Component {
                 data-testid="query-input"
                 value={ inputValue }
                 onChange={ this.changeInput }
+                id="get"
               />
               <button
                 type="submit"
                 data-testid="query-button"
                 onClick={ this.enterFunc }
+                id="get"
               >
                 Buscar!
               </button>
             </label>
-            <CategoryList
-              selectedCategory={ selectedCategory }
-              onChange={ this.handleCategoryChange }
-            />
             <br />
             <span
               data-testid="home-initial-message"
@@ -66,15 +67,17 @@ export default class Home extends Component {
             </span>
           </form>
 
-          <Link to="/shoppingcart" data-testid="shopping-cart-button">
-            <button type="button">
-              <img src="https://cdn-icons-png.flaticon.com/512/1374/1374128.png" height="42" width="42" alt="carrinho" />
-            </button>
-          </Link>
-        </div>
+          <CarrinhoCompras quantidade={ quantidadeCarrinho } />
+        </section>
+        <section className="principal">
+          <CategoryList
+            // selectedCategory={ selectedCategory }
+            onChange={ this.handleCategoryChange }
+          />
 
-        { toGo
-          && <List input={ inputValue } />}
+          { toGo
+            && <List input={ inputValue } />}
+        </section>
       </main>
     );
   }

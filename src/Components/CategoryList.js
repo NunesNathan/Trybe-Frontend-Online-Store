@@ -26,7 +26,7 @@ class CategoryList extends React.Component {
 
   render() {
     const { categories } = this.state;
-    const { selectedCategory, onChange } = this.props;
+    const { onChange } = this.props;
 
     return (
       <ul>
@@ -34,8 +34,9 @@ class CategoryList extends React.Component {
           <CategoryItem
             key={ id }
             category={ name }
-            selectedCategory={ selectedCategory }
+            // selectedCategory={ selectedCategory }
             onChange={ onChange }
+            id={ id }
           />
         ))}
       </ul>
@@ -44,7 +45,7 @@ class CategoryList extends React.Component {
 }
 
 CategoryList.propTypes = {
-  selectedCategory: PropTypes.string.isRequired,
+  // selectedCategory: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
 };
 
