@@ -4,15 +4,19 @@ import ItemCard from './ItemCard';
 
 export default class List extends Component {
   render() {
-    const { resultado } = this.props;
+    const { results } = this.props;
     return (
-      <div className="itens-Card">
-        { resultado.map((result) => <ItemCard key={ result.id } { ...result } />)}
-      </div>
+      results.length > 0
+        ? (
+          <ul className="items-Card">
+            { results.map((result) => <ItemCard key={ result.id } { ...result } />)}
+          </ul>
+        )
+        : <h3>Nenhum produto foi encontrado</h3>
     );
   }
 }
 
 List.propTypes = {
-  resultado: PropType.string.isRequired,
+  results: PropType.arrayOf(PropType.object).isRequired,
 };
