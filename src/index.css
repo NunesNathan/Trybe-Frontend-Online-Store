@@ -37,11 +37,16 @@ input {
   justify-content: center;
 }
 
-form {
+.formMenu {
   margin: 0px 20px 0px 0px;
 }
 
 .principal {
   display: flex;
   flex-wrap: no-wrap;
+}
+
+.categoriaForm {
+  border: thick  double  blue;
+  width: 250px;
 }
