@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import CarrinhoCompras from './CarrinhoCompras';
 import CategoryList from './CategoryList';
 import List from './List';
+import { getResultsByCategory, getResultsBySearch } from '../services/api';
 
 export default class Home extends Component {
   constructor() {
@@ -9,10 +10,34 @@ export default class Home extends Component {
 
     this.state = {
       inputValue: '',
-      toGo: false,
       selectedCategory: '',
       quantidadeCarrinho: 0,
+      results: [],
+      controle: 0,
     };
+  }
+
+  componentDidUpdate() {
+    const { controle } = this.state;
+    if (controle === 1) {
+      const { selectedCategory } = this.state;
+      this.categoriaFun(selectedCategory);
+    }
+  }
+
+  inputFun = async (input) => {
+    const resposta = await getResultsBySearch(input);
+    this.setState({
+      results: resposta.results,
+    });
+  }
+
+  categoriaFun = async (id) => {
+    const resposta = await getResultsByCategory(id);
+    this.setState({
+      results: resposta.results,
+      controle: 0,
+    });
   }
 
   changeInput = (e) => {
@@ -23,25 +48,23 @@ export default class Home extends Component {
 
   enterFunc = (e) => {
     e.preventDefault();
-    this.setState({
-      toGo: true,
-    });
+    const { inputValue } = this.state;
+    this.inputFun(inputValue);
   }
 
   handleCategoryChange = (id) => {
-    const { selectedCategory } = this.state;
     this.setState({
       selectedCategory: id,
+      controle: 1,
     });
-    console.log(selectedCategory);
   };
 
   render() {
-    const { inputValue, toGo, quantidadeCarrinho } = this.state;
+    const { inputValue, quantidadeCarrinho, results } = this.state;
     return (
       <main>
         <section className="menu">
-          <form>
+          <form className="formMenu">
             <label htmlFor="get">
               <input
                 type="text"
@@ -71,12 +94,9 @@ export default class Home extends Component {
         </section>
         <section className="principal">
           <CategoryList
-            // selectedCategory={ selectedCategory }
             onChange={ this.handleCategoryChange }
           />
-
-          { toGo
-            && <List input={ inputValue } />}
+          <List resultado={ results } />
         </section>
       </main>
     );

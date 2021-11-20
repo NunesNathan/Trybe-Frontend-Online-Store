@@ -29,7 +29,7 @@ class CategoryList extends React.Component {
     const { onChange } = this.props;
 
     return (
-      <ul>
+      <form className="categoriaForm">
         {categories.map(({ id, name }) => (
           <CategoryItem
             key={ id }
@@ -39,7 +39,7 @@ class CategoryList extends React.Component {
             id={ id }
           />
         ))}
-      </ul>
+      </form>
     );
   }
 }
