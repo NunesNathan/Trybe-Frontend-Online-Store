@@ -98,8 +98,7 @@ export default class Home extends Component {
             onChange={ this.handleCategoryChange }
           />
           { results.length > 0
-          && <List results={ results } />
-          }
+          && <List results={ results } />}
         </section>
       </main>
     );
