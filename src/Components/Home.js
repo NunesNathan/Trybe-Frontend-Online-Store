@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import CarrinhoCompras from './CarrinhoCompras';
+import ShoppingCartButton from './ShoppingCartButton';
 import CategoryList from './CategoryList';
 import List from './List';
-import { getResultsByCategory, getResultsBySearch } from '../services/api';
+import * as api from '../services/api';
 
 export default class Home extends Component {
   constructor() {
@@ -10,33 +10,34 @@ export default class Home extends Component {
 
     this.state = {
       inputValue: '',
-      selectedCategory: '',
-      quantidadeCarrinho: 0,
+      idValue: '',
+      quantityOnCart: 0,
       results: [],
-      controle: 0,
+      control: 0,
     };
   }
 
   componentDidUpdate() {
-    const { controle } = this.state;
-    if (controle === 1) {
-      const { selectedCategory } = this.state;
-      this.categoriaFun(selectedCategory);
+    const { control, inputValue } = this.state;
+    if (control === 1) {
+      const { idValue } = this.state;
+      this.categoryFunc(idValue, inputValue);
     }
   }
 
-  inputFun = async (input) => {
-    const resposta = await getResultsBySearch(input);
+  queryFunc = async (input) => {
+    const { idValue } = this.state;
+    const response = await api.getProductsFromCategoryAndQuery(idValue, input);
     this.setState({
-      results: resposta.results,
+      results: response.results,
     });
   }
 
-  categoriaFun = async (id) => {
-    const resposta = await getResultsByCategory(id);
+  categoryFunc = async (id, inputValue) => {
+    const response = await api.getProductsFromCategoryAndQuery(id, inputValue);
     this.setState({
-      results: resposta.results,
-      controle: 0,
+      results: response.results,
+      control: 0,
     });
   }
 
@@ -49,18 +50,18 @@ export default class Home extends Component {
   enterFunc = (e) => {
     e.preventDefault();
     const { inputValue } = this.state;
-    this.inputFun(inputValue);
+    this.queryFunc(inputValue);
   }
 
   handleCategoryChange = (id) => {
     this.setState({
-      selectedCategory: id,
-      controle: 1,
+      idValue: id,
+      control: 1,
     });
   };
 
   render() {
-    const { inputValue, quantidadeCarrinho, results } = this.state;
+    const { inputValue, quantityOnCart, results } = this.state;
     return (
       <main>
         <section className="menu">
@@ -90,13 +91,15 @@ export default class Home extends Component {
             </span>
           </form>
 
-          <CarrinhoCompras quantidade={ quantidadeCarrinho } />
+          <ShoppingCartButton quantity={ quantityOnCart } />
         </section>
-        <section className="principal">
+        <section className="mainSearch">
           <CategoryList
             onChange={ this.handleCategoryChange }
           />
-          <List resultado={ results } />
+          { results.length > 0
+          && <List results={ results } />
+          }
         </section>
       </main>
     );

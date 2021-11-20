@@ -5,11 +5,11 @@ export default class ItemCard extends Component {
   render() {
     const { title, thumbnail, price } = this.props;
     return (
-      <div data-testid="product" className="item">
+      <li data-testid="product" className="item">
         <span>{ title }</span>
-        <img src={ thumbnail } alt={ title } height="100" width="80" />
+        <img src={ thumbnail } alt={ title } />
         <span>{ price }</span>
-      </div>
+      </li>
     );
   }
 }

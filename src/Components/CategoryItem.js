@@ -1,22 +1,24 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-class CategoryItem extends React.Component {
+export default class CategoryItem extends Component {
   render() {
     const { category, onChange, id } = this.props;
 
     return (
-      <label htmlFor={ `${id}` }>
-        { category }
-        <input
-          className="reto"
-          type="radio"
-          name="category"
-          value={ category }
-          onChange={ () => onChange(id) }
-          data-testid="category"
-        />
-      </label>
+      <li>
+        <label htmlFor={ `${id}` }>
+          { category }
+          <input
+            className="reto"
+            type="radio"
+            name="category"
+            value={ category }
+            onChange={ () => onChange(id) }
+            data-testid="category"
+          />
+        </label>
+      </li>
     );
   }
 }
@@ -26,5 +28,3 @@ CategoryItem.propTypes = {
   onChange: PropTypes.func.isRequired,
   id: PropTypes.string.isRequired,
 };
-
-export default CategoryItem;

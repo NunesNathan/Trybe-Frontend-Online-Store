@@ -18,7 +18,7 @@ input {
   width: 330px;
 }
 
-.itens-Card {
+.items-Card {
   display: flex;
   flex-wrap: wrap;
 }
@@ -32,6 +32,11 @@ input {
   height: 200px;
 }
 
+.item img {
+  height: 100px;
+  width: 80px;
+}
+
 .menu {
   display: flex;
   justify-content: center;
@@ -41,7 +46,7 @@ input {
   margin: 0px 20px 0px 0px;
 }
 
-.principal {
+.mainSearch {
   display: flex;
   flex-wrap: no-wrap;
 }
@@ -49,4 +54,9 @@ input {
 .categoriaForm {
   border: thick  double  blue;
   width: 250px;
+}
+
+.shoppingCartButton img {
+  height: 42px;
+  width: 42px;
 }

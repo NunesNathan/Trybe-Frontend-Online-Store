@@ -29,23 +29,21 @@ class CategoryList extends React.Component {
     const { onChange } = this.props;
 
     return (
-      <form className="categoriaForm">
+      <ul className="categoriaForm">
         {categories.map(({ id, name }) => (
           <CategoryItem
             key={ id }
             category={ name }
-            // selectedCategory={ selectedCategory }
             onChange={ onChange }
             id={ id }
           />
         ))}
-      </form>
+      </ul>
     );
   }
 }
 
 CategoryList.propTypes = {
-  // selectedCategory: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
 };
 
