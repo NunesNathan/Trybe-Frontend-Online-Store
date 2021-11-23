@@ -17,6 +17,14 @@ export default class Home extends Component {
     };
   }
 
+  componentDidMount() {
+    const results = localStorage.getItem('product');
+
+    if (results === null) {
+      localStorage.setItem('product', JSON.stringify([]));
+    }
+  }
+
   componentDidUpdate() {
     const { control, inputValue } = this.state;
     if (control === 1) {
