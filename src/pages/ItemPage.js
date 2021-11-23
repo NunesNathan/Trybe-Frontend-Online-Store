@@ -8,6 +8,7 @@ export default class ItemPage extends Component {
 
     this.state = {
       details: {},
+      id: '',
     };
   }
 
@@ -21,17 +22,33 @@ export default class ItemPage extends Component {
     const MLB = window.location.pathname.match(/[^/]+$/);
     this.setState({
       details: await api.getDetailsById(MLB),
+      id: MLB,
     });
   }
 
+  addProduct = ({ target }) => {
+    const { product } = localStorage;
+    const list = JSON.parse(product);
+
+    localStorage.setItem('product', JSON.stringify([...list, target.id]));
+  }
+
   render() {
-    const { details } = this.state;
+    const { details, id } = this.state;
     return (
       <>
         <ShoppingCartButton quantity={ 0 } />
         <section>
           <h2 data-testid="product-detail-name">{details.title}</h2>
         </section>
+        <button
+          type="button"
+          id={ id }
+          data-testid="product-detail-add-to-cart"
+          onClick={ this.addProduct }
+        >
+          Add ao carrinho
+        </button>
         <section>
           <h3>Avaliações</h3>
           <form>
