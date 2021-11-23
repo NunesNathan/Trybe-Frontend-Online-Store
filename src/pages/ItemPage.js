@@ -29,9 +29,20 @@ export default class ItemPage extends Component {
     return (
       <>
         <ShoppingCartButton quantity={ 0 } />
-        <div>
+        <section>
           <h2 data-testid="product-detail-name">{details.title}</h2>
-        </div>
+        </section>
+        <section>
+          <h3>Avaliações</h3>
+          <form>
+            <input placeholder="Email" type="email" required />
+            <input
+              placeholder="Mensagem (opcional)"
+              data-testid="product-detail-evaluation"
+              type="textarea"
+            />
+          </form>
+        </section>
       </ >
     );
   }
