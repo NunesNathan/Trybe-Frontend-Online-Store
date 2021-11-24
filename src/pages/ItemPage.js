@@ -30,7 +30,7 @@ export default class ItemPage extends Component {
       details: await api.getDetailsById(MLB),
     });
   }
-
+  
   getReviewsFromStorage = () => {
     const { MLB } = this.state;
     this.setState({
@@ -56,10 +56,16 @@ export default class ItemPage extends Component {
       rate: 1,
     });
   }
+  
+  addProduct = ({ target }) => {
+    const { product } = localStorage;
+    const list = JSON.parse(product);
+
+    localStorage.setItem('product', JSON.stringify([...list, target.id]));
+  }
 
   render() {
-    const { details, optional, email, oldReviews } = this.state;
-    console.log(details);
+    const { details, optional, email, oldReviews, MLB } = this.state;
     return (
       <>
         <ShoppingCartButton quantity={ 0 } />
@@ -76,6 +82,14 @@ export default class ItemPage extends Component {
             { details.sold_quantity }
           </h3>
         </section>
+        <button
+          type="button"
+          id={ id }
+          data-testid="product-detail-add-to-cart"
+          onClick={ this.addProduct }
+        >
+          Add ao carrinho
+        </button>
         <section>
           <h3>Avaliar</h3>
           <form>
