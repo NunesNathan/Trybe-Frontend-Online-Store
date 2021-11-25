@@ -13,16 +13,31 @@ export default class Home extends Component {
       idValue: '',
       quantityOnCart: 0,
       results: [],
-      control: 0,
+      control: false,
+      renderList: false,
+      salvos: [],
     };
   }
 
+  componentDidMount() {
+    const results = localStorage.getItem('product');
+
+    if (results === null) {
+      localStorage.setItem('product', JSON.stringify([]));
+    }
+  }
+
   componentDidUpdate() {
-    const { control, inputValue } = this.state;
-    if (control === 1) {
-      const { idValue } = this.state;
+    const { control, inputValue, idValue } = this.state;
+    if (control) {
       this.categoryFunc(idValue, inputValue);
     }
+  }
+
+  enterFunc = (event) => {
+    event.preventDefault();
+    const { inputValue } = this.state;
+    this.queryFunc(inputValue);
   }
 
   queryFunc = async (input) => {
@@ -30,6 +45,7 @@ export default class Home extends Component {
     const response = await api.getProductsFromCategoryAndQuery(idValue, input);
     this.setState({
       results: response.results,
+      renderList: true,
     });
   }
 
@@ -37,31 +53,26 @@ export default class Home extends Component {
     const response = await api.getProductsFromCategoryAndQuery(id, inputValue);
     this.setState({
       results: response.results,
-      control: 0,
+      control: false,
+      renderList: true,
     });
   }
 
-  changeInput = (e) => {
+  changeInput = ({ target: { value } }) => {
     this.setState({
-      inputValue: e.target.value,
+      inputValue: value,
     });
-  }
-
-  enterFunc = (e) => {
-    e.preventDefault();
-    const { inputValue } = this.state;
-    this.queryFunc(inputValue);
   }
 
   handleCategoryChange = (id) => {
     this.setState({
       idValue: id,
-      control: 1,
+      control: true,
     });
   };
 
   render() {
-    const { inputValue, quantityOnCart, results } = this.state;
+    const { inputValue, quantityOnCart, results, renderList, salvos } = this.state;
     return (
       <main>
         <section className="menu">
@@ -91,14 +102,15 @@ export default class Home extends Component {
             </span>
           </form>
 
-          <ShoppingCartButton quantity={ quantityOnCart } />
+          <ShoppingCartButton quantity={ quantityOnCart } salvos={ salvos } />
         </section>
         <section className="mainSearch">
           <CategoryList
             onChange={ this.handleCategoryChange }
+            salvos={ salvos }
           />
-          { results.length > 0
-          && <List results={ results } />}
+          {renderList
+            && <List results={ results } />}
         </section>
       </main>
     );

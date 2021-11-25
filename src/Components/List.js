@@ -9,7 +9,12 @@ export default class List extends Component {
       results.length > 0
         ? (
           <ul className="items-Card">
-            { results.map((result) => <ItemCard key={ result.id } { ...result } />)}
+            { results.map((result) => (
+              <ItemCard
+                key={ result.id }
+                { ...result }
+              />
+            ))}
           </ul>
         )
         : <h3>Nenhum produto foi encontrado</h3>

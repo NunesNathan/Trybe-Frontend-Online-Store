@@ -4,18 +4,18 @@ import PropTypes from 'prop-types';
 export default class CategoryItem extends Component {
   render() {
     const { category, onChange, id } = this.props;
-
     return (
       <li>
-        <label htmlFor={ `${id}` }>
+        <label className="form-check-label" htmlFor={ id }>
           { category }
           <input
-            className="reto"
+            className="form-check-input"
             type="radio"
             name="category"
             value={ category }
             onChange={ () => onChange(id) }
             data-testid="category"
+            id={ id }
           />
         </label>
       </li>
