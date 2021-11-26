@@ -16,12 +16,23 @@ export default class ItemPage extends Component {
       email: '',
       rate: 1,
       oldReviews: [],
+      resultado: [],
     };
   }
 
   componentDidMount() {
+    this.produto();
     this.getDetailsFromStorage();
     this.getReviewsFromStorage();
+  }
+
+  produto = async () => {
+    const { MLB } = this.state;
+    const fetchProductDetails = await fetch(`https://api.mercadolibre.com/items/${MLB}`);
+    const arr = await fetchProductDetails.json();
+    this.setState({
+      resultado: arr,
+    });
   }
 
   getDetailsFromStorage = async () => {
@@ -56,14 +67,14 @@ export default class ItemPage extends Component {
     }, () => this.getReviewsFromStorage());
   }
 
-  tratamento = async ({ target: { id } }) => {
-    const fetchProductDetails = await fetch(`https://api.mercadolibre.com/items/${id}`);
-    const productDetails = await fetchProductDetails.json();
-    helpers.addProduct(productDetails);
-  }
+  // tratamento = async ({ target: { id } }) => {
+  //   const fetchProductDetails = await fetch(`https://api.mercadolibre.com/items/${id}`);
+  //   const productDetails = await fetchProductDetails.json();
+  //   helpers.addProduct(productDetails);
+  // }
 
   render() {
-    const { details, optional, email, oldReviews, MLB } = this.state;
+    const { details, optional, email, oldReviews, MLB, resultado } = this.state;
     return (
       <main>
         <ShoppingCartButton quantity={ 0 } />
@@ -84,7 +95,7 @@ export default class ItemPage extends Component {
           type="button"
           id={ MLB }
           data-testid="product-detail-add-to-cart"
-          onClick={ this.tratamento }
+          onClick={ () => helpers.addProduct(resultado) }
         >
           Add ao carrinho
         </button>

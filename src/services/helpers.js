@@ -15,16 +15,20 @@ export function getReviews(MLB) {
   return JSON.parse(localStorage.getItem(MLB));
 }
 
-export function addProduct(arr) {
-  const { product } = localStorage;
-  const list = JSON.parse(product);
-
-  localStorage.setItem('product', JSON.stringify([...list, arr]));
-}
-
-// export function addProduct({ target: { id } }) {
-//   const read = JSON.parse(localStorage.getItem(product));
-//   // const list = JSON.parse(product);
-
-//   localStorage.setItem('product', JSON.stringify([...read, id]));
+// export async function addProduct(arr) {
+//   const list = await JSON.parse(localStorage.getItem('product'));
+//   localStorage.setItem('product', JSON.stringify([...list, arr]));
 // }
+
+export async function addProduct(resultado) {
+  // console.log(target);
+  // const fetchProductDetails = await fetch(`https://api.mercadolibre.com/items/${target.id}`);
+  // const arr = await fetchProductDetails.json();
+  const list = JSON.parse(localStorage.getItem('product'));
+  // console.log(list.length);
+  if (list) {
+    localStorage.setItem('product', JSON.stringify([...list, resultado]));
+  } else {
+    localStorage.setItem('product', JSON.stringify([resultado]));
+  }
+}

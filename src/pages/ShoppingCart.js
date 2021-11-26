@@ -12,15 +12,15 @@ export default class ShoppingCart extends Component {
     this.getProductLocal();
   }
 
-  getProductLocal() {
-    const { product } = localStorage;
-    const productList = JSON.parse(product);
-
-    productList.map(async (arr) => {
-      arr.volume = 1;
-      this.setState((prevState) => (
-        { products: [...prevState.products, arr] }));
-    });
+  getProductLocal = async () => {
+    const recuperado = JSON.parse(localStorage.getItem('product'));
+    if (recuperado) {
+      recuperado.map(async (arr) => {
+        arr.volume = 1;
+        this.setState((prevState) => (
+          { products: [...prevState.products, arr] }));
+      });
+    }
   }
 
   botao = (event) => {
@@ -60,7 +60,7 @@ export default class ShoppingCart extends Component {
         <span>{ products.length }</span>
         { products.map(({ title, volume, price }) => (
           <div key={ `${title}` }>
-            <h3 data-testid="shopping-cart-product-name">{`${title}`}</h3>
+            <h3 data-testid="shopping-cart-product-name">{title}</h3>
             <button
               type="button"
               name="down"

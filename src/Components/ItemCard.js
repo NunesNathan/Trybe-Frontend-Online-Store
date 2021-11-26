@@ -4,14 +4,29 @@ import { Link } from 'react-router-dom';
 import * as helpers from '../services/helpers';
 
 export default class ItemCard extends Component {
-  tratamento = async ({ target: { id } }) => {
+  constructor() {
+    super();
+
+    this.state = {
+      resultado: [],
+    };
+  }
+
+  componentDidMount() {
+    this.produto();
+  }
+
+  produto = async () => {
+    const { id } = this.props;
     const fetchProductDetails = await fetch(`https://api.mercadolibre.com/items/${id}`);
-    const productDetails = await fetchProductDetails.json();
-    helpers.addProduct(productDetails);
+    const arr = await fetchProductDetails.json();
+    this.setState({
+      resultado: arr,
+    });
   }
 
   render() {
-    const { title, thumbnail, price, id } = this.props;
+    const { resultado } = this.state;
     return (
       <li
         data-testid="product"
@@ -19,17 +34,17 @@ export default class ItemCard extends Component {
       >
         <Link
           data-testid="product-detail-link"
-          to={ `/itemdetails/${id}` }
+          to={ `/itemdetails/${resultado.id}` }
         >
-          <span>{ title }</span>
-          <img src={ thumbnail } alt={ title } />
-          <span>{ price }</span>
+          <span>{ resultado.title }</span>
+          <img src={ resultado.thumbnail } alt={ resultado.title } />
+          <span>{ resultado.price }</span>
         </Link>
         <button
           type="button"
-          id={ id }
+          id={ resultado.id }
           data-testid="product-add-to-cart"
-          onClick={ this.tratamento }
+          onClick={ () => helpers.addProduct(resultado) }
         >
           Add ao carrinho!
         </button>
@@ -39,8 +54,8 @@ export default class ItemCard extends Component {
 }
 
 ItemCard.propTypes = {
-  title: PropType.string.isRequired,
-  thumbnail: PropType.string.isRequired,
-  price: PropType.number.isRequired,
+  // title: PropType.string.isRequired,
+  // thumbnail: PropType.string.isRequired,
+  // price: PropType.number.isRequired,
   id: PropType.string.isRequired,
 };
