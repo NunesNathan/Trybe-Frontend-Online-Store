@@ -67,12 +67,6 @@ export default class ItemPage extends Component {
     }, () => this.getReviewsFromStorage());
   }
 
-  // tratamento = async ({ target: { id } }) => {
-  //   const fetchProductDetails = await fetch(`https://api.mercadolibre.com/items/${id}`);
-  //   const productDetails = await fetchProductDetails.json();
-  //   helpers.addProduct(productDetails);
-  // }
-
   render() {
     const { details, optional, email, oldReviews, MLB, resultado } = this.state;
     return (

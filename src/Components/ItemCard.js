@@ -54,8 +54,5 @@ export default class ItemCard extends Component {
 }
 
 ItemCard.propTypes = {
-  // title: PropType.string.isRequired,
-  // thumbnail: PropType.string.isRequired,
-  // price: PropType.number.isRequired,
   id: PropType.string.isRequired,
 };
