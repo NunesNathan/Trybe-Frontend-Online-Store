@@ -80,7 +80,7 @@ export default class ShoppingCart extends Component {
             >
               +
             </button>
-            <span>{`R$ ${(price * volume).toFixed(2)}`}</span>
+            <span>{`R$${(price * volume).toFixed(2)}`}</span>
           </div>
         ))}
       </div>
