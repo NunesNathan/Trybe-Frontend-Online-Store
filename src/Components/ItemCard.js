@@ -4,29 +4,29 @@ import { Link } from 'react-router-dom';
 import * as helpers from '../services/helpers';
 
 export default class ItemCard extends Component {
-  constructor() {
-    super();
+  // constructor() {
+  //   super();
 
-    this.state = {
-      resultado: [],
-    };
-  }
+  //   this.state = {
+  //     resultado: [],
+  //   };
+  // }
 
-  componentDidMount() {
-    this.produto();
-  }
+  // componentDidMount() {
+  //   this.produto();
+  // }
 
-  produto = async () => {
-    const { id } = this.props;
-    const fetchProductDetails = await fetch(`https://api.mercadolibre.com/items/${id}`);
-    const arr = await fetchProductDetails.json();
-    this.setState({
-      resultado: arr,
-    });
-  }
+  // produto = async () => {
+  //   const { id } = this.props;
+  //   const fetchProductDetails = await fetch(`https://api.mercadolibre.com/items/${id}`);
+  //   const arr = await fetchProductDetails.json();
+  //   this.setState({
+  //     resultado: arr,
+  //   });
+  // }
 
   render() {
-    const { resultado } = this.state;
+    const { resultado } = this.props;
     return (
       <li
         data-testid="product"
@@ -54,5 +54,6 @@ export default class ItemCard extends Component {
 }
 
 ItemCard.propTypes = {
-  id: PropType.string.isRequired,
+  // id: PropType.string.isRequired,
+  resultado: PropType.string.isRequired,
 };

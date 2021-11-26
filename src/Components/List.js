@@ -12,7 +12,7 @@ export default class List extends Component {
             { results.map((result) => (
               <ItemCard
                 key={ result.id }
-                { ...result }
+                resultado={ result }
               />
             ))}
           </ul>
