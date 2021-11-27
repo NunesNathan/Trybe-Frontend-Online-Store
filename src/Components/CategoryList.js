@@ -5,9 +5,9 @@ import CategoryItem from './CategoryItem';
 
 import * as api from '../services/api';
 
-class CategoryList extends React.Component {
-  constructor(props) {
-    super(props);
+export default class CategoryList extends React.Component {
+  constructor() {
+    super();
 
     this.state = {
       categories: [],
@@ -29,7 +29,7 @@ class CategoryList extends React.Component {
     const { onChange } = this.props;
 
     return (
-      <ul className="categoriaForm">
+      <ul className="form-check">
         {categories.map(({ id, name }) => (
           <CategoryItem
             key={ id }
@@ -46,5 +46,3 @@ class CategoryList extends React.Component {
 CategoryList.propTypes = {
   onChange: PropTypes.func.isRequired,
 };
-
-export default CategoryList;

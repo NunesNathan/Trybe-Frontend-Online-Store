@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
 import ShoppingCartButton from '../Components/ShoppingCartButton';
 import * as api from '../services/api';
+import * as helpers from '../services/helpers';
 import * as reviews from '../services/reviews';
 
 export default class ItemPage extends Component {
   constructor() {
     super();
 
-    /* regex for getting everything after last slash
+    /* regex pra tudo que está depois da ultima barra do pathname
     https://stackoverflow.com/questions/8945477/regular-expression-for-getting-everything-after-last-slash */
     this.state = {
       details: {},
@@ -16,12 +17,23 @@ export default class ItemPage extends Component {
       email: '',
       rate: 1,
       oldReviews: [],
+      resultado: [],
     };
   }
 
   componentDidMount() {
+    this.produto();
     this.getDetailsFromStorage();
     this.getReviewsFromStorage();
+  }
+
+  produto = async () => {
+    const { MLB } = this.state;
+    const fetchProductDetails = await fetch(`https://api.mercadolibre.com/items/${MLB}`);
+    const arr = await fetchProductDetails.json();
+    this.setState({
+      resultado: arr,
+    });
   }
 
   getDetailsFromStorage = async () => {
@@ -30,7 +42,7 @@ export default class ItemPage extends Component {
       details: await api.getDetailsById(MLB),
     });
   }
-  
+
   getReviewsFromStorage = () => {
     const { MLB } = this.state;
     this.setState({
@@ -56,7 +68,7 @@ export default class ItemPage extends Component {
       rate: 1,
     });
   }
-  
+
   addProduct = ({ target }) => {
     const { product } = localStorage;
     const list = JSON.parse(product);
@@ -64,10 +76,35 @@ export default class ItemPage extends Component {
     localStorage.setItem('product', JSON.stringify([...list, target.id]));
   }
 
+  getReviewsFromStorage = () => {
+    const { MLB } = this.state;
+    this.setState({
+      oldReviews: helpers.getReviews(MLB),
+    });
+  }
+
+  changeInputs = ({ target: { name, value } }) => {
+    this.setState({
+      [name]: value,
+    });
+  }
+
+  submitReviewToStorage = async (e) => {
+    e.preventDefault();
+    const { MLB, optional, email, rate } = this.state;
+    const review = { email, optional, rate };
+    await helpers.submitReview(MLB, review);
+    this.setState({
+      optional: '',
+      email: '',
+      rate: 1,
+    }, () => this.getReviewsFromStorage());
+  }
+
   render() {
-    const { details, optional, email, oldReviews, MLB } = this.state;
+    const { details, optional, email, oldReviews, MLB, resultado } = this.state;
     return (
-      <>
+      <main>
         <ShoppingCartButton quantity={ 0 } />
         <section>
           <h2 data-testid="product-detail-name">{ details.title }</h2>
@@ -84,9 +121,9 @@ export default class ItemPage extends Component {
         </section>
         <button
           type="button"
-          id={ id }
+          id={ MLB }
           data-testid="product-detail-add-to-cart"
-          onClick={ this.addProduct }
+          onClick={ () => helpers.addProduct(resultado) }
         >
           Add ao carrinho
         </button>
@@ -112,7 +149,7 @@ export default class ItemPage extends Component {
               id="review"
             />
             <select name="rate" onChange={ this.changeInputs }>
-              <option selected value={ 1 }>1</option>
+              <option value={ 1 }>1</option>
               <option value={ 2 }>2</option>
               <option value={ 3 }>3</option>
               <option value={ 4 }>4</option>
@@ -136,7 +173,7 @@ export default class ItemPage extends Component {
               ))}
             </ol>
           )}
-      </ >
+      </main>
     );
   }
 }

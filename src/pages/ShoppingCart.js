@@ -12,18 +12,15 @@ export default class ShoppingCart extends Component {
     this.getProductLocal();
   }
 
-  getProductLocal() {
-    const { product } = localStorage;
-    const productList = JSON.parse(product);
-
-    productList.map(async (id) => {
-      const fetchProductDetails = await fetch(`https://api.mercadolibre.com/items/${id}`);
-      const productDetails = await fetchProductDetails.json();
-      productDetails.volume = 1;
-      console.log(productDetails);
-      this.setState((prevState) => (
-        { products: [...prevState.products, productDetails] }));
-    });
+  getProductLocal = async () => {
+    const recuperado = JSON.parse(localStorage.getItem('product'));
+    if (recuperado) {
+      recuperado.map(async (arr) => {
+        arr.volume = 1;
+        this.setState((prevState) => (
+          { products: [...prevState.products, arr] }));
+      });
+    }
   }
 
   botao = (event) => {
@@ -37,12 +34,8 @@ export default class ShoppingCart extends Component {
         const item = { ...items[index] };
         if (volume > 0 && nomeButton === 'down') {
           item.volume -= 1;
-          console.log(nomeButton);
-          console.log(volume);
         } if (volume >= 0 && nomeButton === 'up') {
           item.volume += 1;
-          console.log(nomeButton);
-          console.log(volume);
         }
         items[index] = item;
         this.setState({ products: [...items] });
@@ -64,10 +57,10 @@ export default class ShoppingCart extends Component {
 
     return (
       <div>
-        <span data-testid="shopping-cart-product-quantity">{ products.length }</span>
+        <span>{ products.length }</span>
         { products.map(({ title, volume, price }) => (
           <div key={ `${title}` }>
-            <h3 data-testid="shopping-cart-product-name">{`${title}`}</h3>
+            <h3 data-testid="shopping-cart-product-name">{title}</h3>
             <button
               type="button"
               name="down"
@@ -77,7 +70,7 @@ export default class ShoppingCart extends Component {
             >
               -
             </button>
-            <span>{` ${volume} `}</span>
+            <span data-testid="shopping-cart-product-quantity">{`${volume}`}</span>
             <button
               type="button"
               name="up"
@@ -87,16 +80,9 @@ export default class ShoppingCart extends Component {
             >
               +
             </button>
-            <span>{` ${(price * volume).toFixed(2)} `}</span>
+            <span>{`R$ ${(price * volume).toFixed(2)}`}</span>
           </div>
         ))}
-        {/* { products.map(({ id, title, thumbnail, price }) => (
-          <div key={ id }>
-            <h1 data-testid="shopping-cart-product-name">{ title }</h1>
-            <img src={ thumbnail } alt={ title } />
-            <p>{ price }</p>
-          </div>
-        )) } */}
       </div>
     );
   }
