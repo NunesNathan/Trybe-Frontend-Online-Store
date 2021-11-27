@@ -3,6 +3,13 @@ import PropType from 'prop-types';
 import ItemCard from './ItemCard';
 
 export default class List extends Component {
+  addProduct({ target }) {
+    const { product } = localStorage;
+    const list = JSON.parse(product);
+
+    localStorage.setItem('product', JSON.stringify([...list, target.id]));
+  }
+
   render() {
     const { results } = this.props;
     return (

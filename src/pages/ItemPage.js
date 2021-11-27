@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import ShoppingCartButton from '../Components/ShoppingCartButton';
 import * as api from '../services/api';
 import * as helpers from '../services/helpers';
+import * as reviews from '../services/reviews';
 
 export default class ItemPage extends Component {
   constructor() {
@@ -40,6 +41,39 @@ export default class ItemPage extends Component {
     this.setState({
       details: await api.getDetailsById(MLB),
     });
+  }
+
+  getReviewsFromStorage = () => {
+    const { MLB } = this.state;
+    this.setState({
+      oldReviews: reviews.getReviews(MLB),
+    });
+  }
+
+  changeInputs = (e) => {
+    const { name, value } = e.target;
+    this.setState({
+      [name]: value,
+    });
+  }
+
+  submitReviewToStorage = async (e) => {
+    e.preventDefault();
+    const { MLB, optional, email, rate } = this.state;
+    const review = { email, optional, rate };
+    await reviews.submitReview(MLB, review);
+    this.setState({
+      optional: '',
+      email: '',
+      rate: 1,
+    });
+  }
+
+  addProduct = ({ target }) => {
+    const { product } = localStorage;
+    const list = JSON.parse(product);
+
+    localStorage.setItem('product', JSON.stringify([...list, target.id]));
   }
 
   getReviewsFromStorage = () => {
